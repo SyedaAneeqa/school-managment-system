@@ -1,0 +1,136 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+   
+    <nav class="navbar">
+        <div class="school-name">Bright Future Academy</div>
+        <a href="#" class="logout-btn" onclick="confirmLogout()">Logout</a>
+    </nav>
+    
+    
+    <script>
+        function confirmLogout() {
+            let confirmAction = confirm("Do you want to log out of your account?");
+            if (confirmAction) {
+                window.location.href = "{{ url_for('logout') }}"; // Redirects to logout route
+            }
+        }
+    </script>
+
+    <div class="dashboard-container">
+     
+        <aside class="sidebar">
+            <h3 class="admin-name">Admin Name</h3>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('admindashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('admin_teacher') }}">Teacher</a></li>
+                    <li><a href="{{ url_for('admin_student') }}">Student</a></li>
+                    <li><a href="#">Attendance</a></li>
+                    <li><a href="#">Fee</a></li>
+                    <li><a href="#">Notice</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+      
+        <main class="dashboard-content">
+            <h2>Admin Dashboard</h2>
+
+       
+            <div class="stats-row">
+                <div class="stat-box">Total Teachers: <span>0</span></div>
+                <div class="stat-box">Total Students: <span>0</span></div>
+                <div class="stat-box">Teacher Salary: <span>0</span></div>
+                <div class="stat-box">Student Fee: <span>0</span></div>
+            </div>
+
+            
+            <div class="notice-board">
+                <h3>Notice Board</h3>
+                <ul>
+                    <li>No new notices</li>
+                    <li>Upcoming events will be updated soon</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="school-name">Bright Future Academy</div>
+        <a href="#" class="logout-btn" onclick="confirmLogout()">Logout</a>
+    </nav>
+    
+    <!-- JavaScript for Logout Confirmation -->
+    <script>
+        function confirmLogout() {
+            let confirmAction = confirm("Do you want to log out of your account?");
+            if (confirmAction) {
+                window.location.href = "{{ url_for('logout') }}"; // Redirects to logout route
+            }
+        }
+    </script>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3 class="admin-name">Welcome, {{ session['username'] }}</h3>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('admindashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('admin_teacher') }}">Teacher</a></li>
+                    <li><a href="{{ url_for('admin_student') }}">Student</a></li>
+                    <li><a href="#">Attendance</a></li>
+                    <li><a href="#">Fee</a></li>
+                    <li><a href="{{ url_for('admin_notice') }}">Notice</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <h2>Admin Dashboard</h2>
+
+            <!-- Statistics Row -->
+            <div class="stats-row">
+                <div class="stat-box">Total Teachers: <span>{{ total_teachers }}</span></div>
+                <div class="stat-box">Total Students: <span>{{ total_students }}</span></div>
+                <div class="stat-box">Teacher Salary: <span>0</span></div>
+                <div class="stat-box">Student Fee: <span>0</span></div>
+            </div>
+
+            <!-- Notice Board -->
+            <div class="notice-board">
+                <h3>Notice Board</h3>
+                <ul>
+                    <li>No new notices</li>
+                    <li>Upcoming events will be updated soon</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

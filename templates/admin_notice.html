@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Notice Board</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="school-name">Bright Future Academy</div>
+        <a href="#" class="logout-btn" onclick="confirmLogout()">Logout</a>
+    </nav>
+    
+    <script>
+        function confirmLogout() {
+            let confirmAction = confirm("Do you want to log out of your account?");
+            if (confirmAction) {
+                window.location.href = "{{ url_for('logout') }}";
+            }
+        }
+    </script>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3 class="admin-name">Admin Name</h3>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('admindashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('admin_teacher') }}">Teacher</a></li>
+                    <li><a href="{{ url_for('admin_student') }}">Student</a></li>
+                    <li><a href="#">Attendance</a></li>
+                    <li><a href="#">Fee</a></li>
+                    <li><a href="{{ url_for('admin_notice') }}">Notice</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <h2>Admin Notice Board</h2>
+
+            <!-- Post New Notice -->
+            <form method="POST" action="{{ url_for('admin_notice') }}">
+                <textarea name="notice_text" placeholder="Write a notice..." required></textarea>
+                <button type="submit">Post Notice</button>
+            </form>
+
+            <!-- Display Notices with Delete Option -->
+            <div class="notice-board">
+                <h3>Recent Notices</h3>
+                <ul>
+                    {% for notice in notices %}
+                        <li>
+                            <strong>{{ notice.date_posted.strftime('%Y-%m-%d %H:%M') }}</strong> - {{ notice.notice_text }}
+                            <form method="POST" action="{{ url_for('delete_notice', notice_id=notice.id) }}" style="display:inline;">
+                                <button type="submit" class="delete-btn">Delete</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

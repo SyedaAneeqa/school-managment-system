@@ -1,0 +1,332 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Teachers - Quantum Academy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    
+<nav class="navbar">
+    <div class="school-name">Bright Future Academy</div>
+</nav>
+
+
+
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="admin-name">Admin</div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('admindashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('admin_teacher') }}" class="active">Teachers</a></li>
+                    <li><a href="{{ url_for('admin_student') }}">Students</a></li>
+                    <li><a href="{{ url_for('admin_attendance') }}">Attendance</a></li>
+                    <li><a href="#">Fee</a></li>
+                    <li><a href="#">Notices</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        
+        <div class="dashboard-content">
+            <h2>Manage Teachers</h2>
+
+           
+            <div class="teacher-options">
+                <button id="viewTeachersBtn">View All Teachers</button>
+                <button id="addTeacherBtn">Add a Teacher</button>
+            </div>
+
+            
+            <div id="viewTeachers" class="teacher-section">
+                <h3>All Teachers</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Username</th>
+                            <th>Mobile</th>
+                            <th>Salary</th>
+                            <th>Class No</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="teacherList">
+                        
+                    </tbody>
+                </table>
+            </div>
+
+            
+            <div id="addTeacher" class="teacher-section" style="display: none;">
+                <h3>Hire New Teacher</h3>
+                <form id="teacherForm">
+                    <input type="text" id="firstName" placeholder="First Name" required>
+                    <input type="text" id="lastName" placeholder="Last Name" required>
+                    <input type="text" id="username" placeholder="Username" required>
+                    <input type="password" id="password" placeholder="Password" required>
+                    <input type="text" id="mobile" placeholder="Mobile Number" required>
+                    <input type="number" id="salary" placeholder="Salary" required>
+                    <input type="text" id="classno" placeholder="Class No." required>
+                    <button type="submit">Add Teacher</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("viewTeachersBtn").addEventListener("click", function() {
+            document.getElementById("viewTeachers").style.display = "block";
+            document.getElementById("addTeacher").style.display = "none";
+        });
+
+        document.getElementById("addTeacherBtn").addEventListener("click", function() {
+            document.getElementById("viewTeachers").style.display = "none";
+            document.getElementById("addTeacher").style.display = "block";
+        });
+
+        document.getElementById("teacherForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let firstName = document.getElementById("firstName").value;
+            let lastName = document.getElementById("lastName").value;
+            let username = document.getElementById("username").value;
+            let mobile = document.getElementById("mobile").value;
+            let salary = document.getElementById("salary").value;
+            let classno = document.getElementById("classno").value; 
+
+          
+            let table = document.getElementById("teacherList");
+            let row = table.insertRow();
+            row.innerHTML = `
+                <td>${firstName}</td>
+                <td>${lastName}</td>
+                <td>${username}</td>
+                <td>${mobile}</td>
+                <td>${salary}</td>
+                <td>${clasno}</td>
+                <td>
+                    <button class="editBtn">Edit</button>
+                    <button class="deleteBtn">Delete</button>
+                </td>
+            `;
+
+           
+            document.getElementById("teacherForm").reset();
+
+        
+            row.querySelector(".deleteBtn").addEventListener("click", function() {
+                row.remove();
+            });
+
+           
+            row.querySelector(".editBtn").addEventListener("click", function() {
+                document.getElementById("firstName").value = firstName;
+                document.getElementById("lastName").value = lastName;
+                document.getElementById("username").value = username;
+                document.getElementById("mobile").value = mobile;
+                document.getElementById("salary").value = salary;
+                document.getElementById("classno").value = classno;
+                document.getElementById("viewTeachers").style.display = "none";
+                document.getElementById("addTeacher").style.display = "block";
+                row.remove();
+            });
+        });
+    </script>
+
+</body>
+</html> -->
+                                  <!-- helloo -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Manage Teachers</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
+</head>
+
+<body>
+    <h2>Manage Teachers</h2>
+    <nav class="navbar">
+        <div class="school-name">Bright Future Academy</div>
+    </nav>
+
+
+
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="admin-name">Admin</div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('admindashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('admin_teacher') }}" class="active">Teachers</a></li>
+                    <li><a href="{{ url_for('admin_student') }}">Students</a></li>
+                    <li><a href="{{ url_for('admin_attendance') }}">Attendance</a></li>
+                    <li><a href="#">Fee</a></li>
+                    <li><a href="#">Notices</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <form id="teacherForm" method="POST" action="{{ url_for('admin_teacher') }}">
+            <label>First Name:</label>
+            <input type="text" name="firstname" required>
+            <label>Last Name:</label>
+            <input type="text" name="lastname" required>
+            <label>Username:</label>
+            <input type="text" name="username" required>
+            <label>Password:</label>
+            <input type="password" name="password" required>
+            <label>Mobile:</label>
+            <input type="text" name="mobile" required>
+            <label>Salary:</label>
+            <input type="number" name="salary" required>
+            <label>Class No:</label>
+            <input type="text" name="classno" required>
+            <button type="submit">Add Teacher</button>
+        </form>
+
+        <h3>Teachers List</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                    <th>Mobile</th>
+                    <th>Salary</th>
+                    <th>Class No</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for teacher in teachers %}
+                <tr>
+                    <td>{{ teacher.firstname }}</td>
+                    <td>{{ teacher.lastname }}</td>
+                    <td>{{ teacher.username }}</td>
+                    <td>{{ teacher.mobile }}</td>
+                    <td>{{ teacher.salary }}</td>
+                    <td>{{ teacher.classno }}</td>
+                    <td>
+                        <a href="{{ url_for('delete_teacher', username=teacher.username) }}">
+                            <button class="deleteBtn">Delete</button>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</body>
+
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Teachers - Quantum Academy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="school-name">Bright Future Academy</div>
+</nav>
+
+<div class="dashboard-container">
+    <div class="sidebar">
+        <div class="admin-name">Admin</div>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('admindashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('admin_teacher') }}" class="active">Teachers</a></li>
+                <li><a href="{{ url_for('admin_student') }}">Students</a></li>
+                <li><a href="{{ url_for('admin_attendance') }}">Attendance</a></li>
+                <li><a href="#">Fee</a></li>
+                <li><a href="{{ url_for('admin_notice') }}">Notices</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="dashboard-content">
+        <h2>Manage Teachers</h2>
+
+        <div class="teacher-options">
+            <button id="viewTeachersBtn">View All Teachers</button>
+            <button id="addTeacherBtn">Add a Teacher</button>
+        </div>
+
+        <div id="viewTeachers" class="teacher-section">
+            <h3>All Teachers</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
+                        <th>Mobile</th>
+                        <th>Salary</th>
+                        <th>Class No</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="teacherList">
+                    {% for teacher in teachers %}
+                    <tr>
+                        <td>{{ teacher.firstname }}</td>
+                        <td>{{ teacher.lastname }}</td>
+                        <td>{{ teacher.username }}</td>
+                        <td>{{ teacher.mobile }}</td>
+                        <td>{{ teacher.salary }}</td>
+                        <td>{{ teacher.classno }}</td>
+                        <td>
+                            <button class="editBtn">Edit</button>
+                            <a href="{{ url_for('delete_teacher', username=teacher.username) }}">
+                                <button class="deleteBtn">Delete</button>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="addTeacher" class="teacher-section" style="display: none;">
+            <h3>Hire New Teacher</h3>
+            <form id="teacherForm" method="POST" action="{{ url_for('admin_teacher') }}">
+                <input type="text" name="firstname" placeholder="First Name" required>
+                <input type="text" name="lastname" placeholder="Last Name" required>
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="text" name="mobile" placeholder="Mobile Number" required>
+                <input type="number" name="salary" placeholder="Salary" required>
+                <input type="text" name="classno" placeholder="Class No." required>
+                <button type="submit">Add Teacher</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("viewTeachersBtn").addEventListener("click", function() {
+        document.getElementById("viewTeachers").style.display = "block";
+        document.getElementById("addTeacher").style.display = "none";
+    });
+
+    document.getElementById("addTeacherBtn").addEventListener("click", function() {
+        document.getElementById("viewTeachers").style.display = "none";
+        document.getElementById("addTeacher").style.display = "block";
+    });
+</script>
+
+</body>
+</html>

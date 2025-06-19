@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard</title>
+    <title>Select Courses</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
     <div class="navbar">
@@ -14,7 +16,7 @@
             <a href="#" onclick="confirmLogout()">Logout</a>
         </div>
     </div>
-    
+
     <!-- JavaScript for Logout Confirmation -->
     <script>
         function confirmLogout() {
@@ -33,7 +35,7 @@
                 <ul>
                     <li><a href="{{ url_for('studentdashboard') }}">Dashboard</a></li>
                     <li><a href="{{ url_for('view_grades') }}">View Grades</a></li>
-                    <li><a href="{{ url_for('select_courses') }}">Select Courses</a></li>
+                    <li><a href="{{ url_for('select_courses') }}" class="active">Select Courses</a></li>
                     <li><a href="{{ url_for('view_attendance') }}" class="active">View Attendance</a></li>
                     <li><a href="{{ url_for('chatbot') }}" class="active">Chatbot</a></li>
                 </ul>
@@ -42,27 +44,31 @@
 
         <!-- Main Content -->
         <main class="dashboard-content">
-            <h2>Student Dashboard</h2>
+            <h2>Select Your Courses</h2>
 
-            <!-- Functionality Highlights -->
-            <div class="stats-row">
-                <div class="stat-box">Your Classes: <span>{{ total_classes }}</span></div>
-                <div class="stat-box">Your Enrolled Courses: <span>{{ total_courses }}</span></div>
-                <div class="stat-box">Assignments Submitted: <span>{{ total_assignments }}</span></div>
-                <div class="stat-box">Attendance Records: <span>{{ attendance_count }}</span></div>
-            </div>
+            <form action="{{ url_for('submit_course_selection') }}" method="POST">
+                <h3>Available Courses:</h3>
+                <label for="student_id">Student ID:</label>
+                <input type="text" name="student_id" id="student_id" required>
+                <select name="course_id" required>
+                    <option value="">Select a Course</option>
+                    {% for course in available_courses %}
+                    <option value="{{ course.course_id }}">
+                        {{ course.course_name }} - Class {{ course.class }} - {{ course.type }}
+                    </option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Select Course</button>
 
-            <!-- Quick Updates or Notices -->
-            <div class="notice-board">
-                <h3>Quick Updates</h3>
-                <ul>
-                    <li>Check assignment submissions</li>
-                    <li>Review grades</li>
-                    <li>Complete course selections</li>
-                </ul>
-            </div>
+            </form>
+
+
+            {% if message %}
+            <p>{{ message }}</p>
+            {% endif %}
         </main>
     </div>
 
 </body>
+
 </html>

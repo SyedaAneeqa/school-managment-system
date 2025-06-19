@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard</title>
+    <title>View Grades</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -32,37 +32,50 @@
             <nav>
                 <ul>
                     <li><a href="{{ url_for('studentdashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ url_for('view_grades') }}">View Grades</a></li>
+                    <li><a href="{{ url_for('view_grades') }}" class="active">View Grades</a></li>
                     <li><a href="{{ url_for('select_courses') }}">Select Courses</a></li>
                     <li><a href="{{ url_for('view_attendance') }}" class="active">View Attendance</a></li>
                     <li><a href="{{ url_for('chatbot') }}" class="active">Chatbot</a></li>
+
                 </ul>
             </nav>
         </aside>
 
         <!-- Main Content -->
         <main class="dashboard-content">
-            <h2>Student Dashboard</h2>
+            <h2>View Your Grades</h2>
 
-            <!-- Functionality Highlights -->
-            <div class="stats-row">
-                <div class="stat-box">Your Classes: <span>{{ total_classes }}</span></div>
-                <div class="stat-box">Your Enrolled Courses: <span>{{ total_courses }}</span></div>
-                <div class="stat-box">Assignments Submitted: <span>{{ total_assignments }}</span></div>
-                <div class="stat-box">Attendance Records: <span>{{ attendance_count }}</span></div>
-            </div>
+            <!-- Form to Enter Student ID -->
+            <form method="POST" style="margin-bottom: 20px;">
+                <label for="student_id">Enter Your Student ID:</label>
+                <input type="text" id="student_id" name="student_id" required>
+                <button type="submit">View Grades</button>
+            </form>
 
-            <!-- Quick Updates or Notices -->
-            <div class="notice-board">
-                <h3>Quick Updates</h3>
-                <ul>
-                    <li>Check assignment submissions</li>
-                    <li>Review grades</li>
-                    <li>Complete course selections</li>
-                </ul>
-            </div>
+            {% if grades %}
+                <h3>Your Grades:</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for grade in grades %}
+                            <tr>
+                                <td>{{ grade.subject }}</td>
+                                <td>{{ grade.grade }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% elif request.method == 'POST' %}
+                <p>No grades available for this Student ID.</p>
+            {% endif %}
         </main>
     </div>
 
 </body>
 </html>
+

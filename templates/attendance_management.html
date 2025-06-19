@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <div class="school-name">Bright Future Academy</div>
+        <div class="buttons">
+            <a href="#" onclick="confirmLogout()">Logout</a>
+        </div>
+    </div>
+
+    <!-- JavaScript for Logout Confirmation -->
+    <script>
+        function confirmLogout() {
+            let confirmAction = confirm("Do you want to log out of your account?");
+            if (confirmAction) {
+                window.location.href = "{{ url_for('logout') }}";
+            }
+        }
+    </script>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3 class="admin-name">Welcome, {{ session['username'] }}</h3>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('teacherdashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('grade_management') }}">Grade Management</a></li>
+                    <li><a href="{{ url_for('attendance_management') }}" class="active">Attendance Tracking</a></li>
+                    <li><a href="{{ url_for('chatbot') }}" class="active">Chatbot</a></li>
+
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <h2>Attendance Panel</h2>
+
+            <!-- Class Selection Form -->
+            <form method="GET" action="{{ url_for('attendance_management') }}">
+                <label for="classno">Select Class:</label>
+                <select name="classno" id="classno" required>
+                    <option value="">-- Choose Class --</option>
+                    {% for cls in classes %}
+                        <option value="{{ cls }}" {% if selected_class == cls %}selected{% endif %}>{{ cls }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Show Students</button>
+            </form>
+
+            <!-- Attendance Form: Only if students are selected -->
+            {% if students %}
+            <form method="POST" action="{{ url_for('attendance_management') }}">
+                <input type="hidden" name="classno" value="{{ selected_class }}">
+                <label for="date">Date:</label>
+                <input type="date" name="date" id="date" value="{{ current_date }}" required><br>
+
+                <h3>Select Attendance Status:</h3>
+                {% for student in students %}
+                    <div>
+                        <strong>{{ student.firstname }} {{ student.lastname }}</strong><br>
+                        <label><input type="radio" name="attendance_{{ student.id }}" value="Present" required> Present</label>
+                        <label><input type="radio" name="attendance_{{ student.id }}" value="Absent"> Absent</label>
+                        <label><input type="radio" name="attendance_{{ student.id }}" value="Late"> Late</label>
+                    </div>
+                    <br>
+                {% endfor %}
+                <button type="submit">Submit Attendance</button>
+            </form>
+            {% endif %}
+
+            <!-- Attendance Records Section: Show class-wise attendance -->
+            <h3>Today's Attendance Records for Class {{ selected_class }}:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in attendance_records %}
+                        <tr>
+                            <td>{{ record.student_name }}</td>
+                            <td>{{ record.status }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grade Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <!-- <nav class="navbar">
+        <div class="school-name">Bright Future Academy</div>
+        <a href="#" class="buttons" onclick="confirmLogout()">Logout</a>
+    </nav> -->
+    <div class="navbar">
+        <div class="school-name">Bright Future Academy</div>
+        <div class="buttons">
+            <a href="#" onclick="confirmLogout()">Logout</a>
+        </div>
+    </div>
+
+    <script>
+        function confirmLogout() {
+            let confirmAction = confirm("Do you want to log out of your account?");
+            if (confirmAction) {
+                window.location.href = "{{ url_for('logout') }}";
+            }
+        }
+    </script>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3 class="admin-name">Welcome, {{ session['username'] }}</h3>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('teacherdashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('grade_management') }}" class="active">Grade Management</a></li>
+                    <li><a href="{{ url_for('attendance_management') }}">Attendance Tracking</a></li>
+                    <li><a href="{{ url_for('chatbot') }}" class="active">Chatbot</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <h2>Grading Panel</h2>
+
+            <!-- Flash Message -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Class Filter and Add Grade Button -->
+            <div class="teacher-options">
+                <form method="get" action="{{ url_for('grade_management') }}">
+                    <label for="classno">Select Class:</label>
+                    <select name="classno" onchange="this.form.submit()">
+                        <option value="">All Classes</option>
+                        {% for classno in classes %}
+                            <option value="{{ classno }}" {% if selected_class == classno %}selected{% endif %}>Class {{ classno }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+
+                <button onclick="document.getElementById('addGradeForm').style.display='block'">Add Grade</button>
+            </div>
+
+            <!-- Grade Form -->
+            <div id="addGradeForm" class="form-container" style="display:none;">
+                <form action="{{ url_for('grade_management') }}{% if selected_class %}?classno={{ selected_class }}{% endif %}" method="POST">
+                    <select name="student" required>
+                        <option value="">Select Student</option>
+                        {% for student in students %}
+                            <option value="{{ student.id }}">{{ student.firstname }} {{ student.lastname }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <input type="text" name="subject" placeholder="Subject" required>
+
+                    <select name="grade" required>
+                        <option value="">Select Grade</option>
+                        <option value="A+">A+</option>
+                        <option value="A">A</option>
+                        <option value="B+">B+</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="F">F</option>
+                    </select>
+
+                    <button type="submit">Add Grade</button>
+                </form>
+            </div>
+
+            <!-- Grades Table -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Student Name</th>
+                        <th>Class</th>
+                        <th>Subject</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for grade in grades %}
+                    <tr>
+                        <td>{{ grade.id }}</td>
+                        <td>{{ grade.student_name }}</td>
+                        <td>{{ grade.classno }}</td>
+                        <td>{{ grade.subject }}</td>
+                        <td>{{ grade.grade }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </main>
+    </div>
+
+</body>
+</html>

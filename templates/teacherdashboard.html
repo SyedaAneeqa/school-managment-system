@@ -3,9 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <p>this is teacher dashboard</p>
+
+    <div class="navbar">
+        <div class="school-name">Bright Future Academy</div>
+        <div class="buttons">
+            <a href="#" onclick="confirmLogout()">Logout</a>
+        </div>
+    </div>
+    
+    <!-- JavaScript for Logout Confirmation -->
+    <script>
+        function confirmLogout() {
+            let confirmAction = confirm("Do you want to log out of your account?");
+            if (confirmAction) {
+                window.location.href = "{{ url_for('logout') }}";
+            }
+        }
+    </script>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3 class="admin-name">Welcome, {{ session['username'] }}</h3>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('teacherdashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('grade_management') }}">grade Management</a></li>
+                    <li><a href="{{ url_for('attendance_management') }}">Attendance Tracking</a></li>
+                    <li><a href="{{ url_for('chatbot') }}" class="active">Chatbot</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <h2>Teacher Dashboard</h2>
+
+            <!-- Functionality Highlights -->
+            <div class="stats-row">
+                <div class="stat-box">Your Classes: <span>{{ total_classes }}</span></div>
+                <div class="stat-box">Your Students: <span>{{ total_students }}</span></div>
+                <div class="stat-box">Assignments Created: <span>{{ total_assignments }}</span></div>
+                <div class="stat-box">Attendance Records: <span>{{ attendance_count }}</span></div>
+            </div>
+
+            <!-- Quick Updates or Notices -->
+            <div class="notice-board">
+                <h3>Quick Updates</h3>
+                <ul>
+                    <li>Check assignment submissions</li>
+                    <li>Review pending grades</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
 </body>
 </html>

@@ -5,25 +5,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>School Management System</title>
-    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 
 <body>
 
-    <div class="navbar">
-        <div class="school-name">Bright Future Academy</div>
-        <div class="buttons">
-            <a href="{{ url_for('login') }}">Login</a>
-            <a href="{{ url_for('signup') }}">Signup</a>
+    <div class="background-image">
+        <div class="overlay">
+
+            <div class="navbar">
+                <div class="school-name">Bright Future Academy</div>
+                <div class="buttons">
+                    <a href="{{ url_for('login') }}">Login</a>
+                    <a href="{{ url_for('signup') }}">Signup</a>
+                </div>
+            </div>
+
+            <div class="container">
+                <h1>"Welcome to Bright Future Academy"</h1>
+                <p>Bright Future Academy is dedicated to providing quality education and nurturing young minds to shape a better tomorrow.</p>
+            </div>
 
         </div>
     </div>
 
-    <div class="container">
-        <h1>"Welcome to Bright Future Academy"</h1>
-        <p>Bright Future Academy is dedicated to providing quality education and nurturing young minds to shape a better
-            tomorrow.</p>
-    </div>
+    <section class="history">
+        <h2>Our Journey</h2>
+        <p>Established in 2005, Bright Future Academy has been shaping young minds with excellence in education. 
+           From a small school to a thriving academic institution, we have grown with our students’ dreams.</p>
+    </section>
+
+    <section class="facilities">
+        <h2>Academics & Facilities</h2>
+        <ul>
+            <li>Modern Classrooms with Smart Boards</li>
+            <li>Well-equipped Science and Computer Labs</li>
+            <li>Library and Reading Rooms</li>
+            <li>Indoor and Outdoor Sports</li>
+            <li>Art & Music Studios</li>
+        </ul>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="social">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="mailto:brightfuture@academy.com"><i class="fas fa-envelope"></i></a>
+                <a href="#"><i class="fas fa-phone"></i></a>
+            </div>
+            <p>&copy; 2025 Bright Future Academy. All rights reserved.</p>
+        </div>
+    </footer>
 
 </body>
 
